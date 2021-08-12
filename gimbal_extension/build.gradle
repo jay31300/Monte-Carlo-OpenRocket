@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'nz.ac.vuw.ecs.engr300.group17'
+version '0.01-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile fileTree(include: ['*.jar'], dir: 'lib')
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it) }
+    }
+
+}
+
+test {
+    useJUnit()
+
+    maxHeapSize = '1G'
+}
+
+

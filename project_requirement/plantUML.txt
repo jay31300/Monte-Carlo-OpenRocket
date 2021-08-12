@@ -1,0 +1,50 @@
+@startuml
+package "main" #DDDDDD {
+class MonteCarloLegacy{
+  -xInMetres: List<Double>
+  -yInMetres: List<Double>
+  -xSD: double
+  -ySD: double
+  -filename: String
+  -stDev: String
+  +MonteCarloLegacy()
+  +void main()
+  +void parseData()
+  +void plot()
+  +calculateSD(): double
+  +printToFile(fileName, xPoints, yPoints)
+}
+MonteCarloLegacy --> Simulation
+class Simulation{
+  +void simulation(parameters)
+  +void initializeGUI()
+  +void startUpGUI()
+}
+class EndSimListener{
+  -writer: BufferedWriter
+  +endSimulation(status, exception)
+}
+EndSimListener --> MonteCarloSimulationListener
+class MonteCarloSimulationListener{
+  +MonteCarloSimulationListener()
+  +startSimulation(status)
+}
+MonteCarloSimulationListener --> MonteCarloConfigurator
+class MonteCarloConfigurator{
+  +MonteCarloConfigurator()
+  #getConfigurationComponent(monteCarlo, simulation, jPanel): JComponent 
+}
+MonteCarloConfigurator --> MonteCarlo
+class MonteCarlo{
+  +getName(): String
+  +getDescription(): String
+  +initialize(simConditions)
+}
+MonteCarlo --> MonteCarloProvider
+class MonteCarloProvider{
+  +MonteCarloProvider()
+}
+MonteCarlo --> OpenRocket_jar
+class OpenRocket_jar{
+}
+@enduml
